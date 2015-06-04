@@ -14,6 +14,8 @@
 		6260CAC41B18029100F8A687 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6260CAC31B18029100F8A687 /* Images.xcassets */; };
 		6260CAC71B18029100F8A687 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6260CAC51B18029100F8A687 /* LaunchScreen.xib */; };
 		6260CAD31B18029100F8A687 /* RuntimeDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6260CAD21B18029100F8A687 /* RuntimeDemoTests.m */; };
+		6260CADE1B18042000F8A687 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 6260CADD1B18042000F8A687 /* Person.m */; };
+		6260CAE11B18319C00F8A687 /* NSObject+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6260CAE01B18319C00F8A687 /* NSObject+Conversion.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		6260CACC1B18029100F8A687 /* RuntimeDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RuntimeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6260CAD11B18029100F8A687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6260CAD21B18029100F8A687 /* RuntimeDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RuntimeDemoTests.m; sourceTree = "<group>"; };
+		6260CADC1B18042000F8A687 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		6260CADD1B18042000F8A687 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		6260CADF1B18319C00F8A687 /* NSObject+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Conversion.h"; sourceTree = "<group>"; };
+		6260CAE01B18319C00F8A687 /* NSObject+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Conversion.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +91,10 @@
 				6260CABB1B18029100F8A687 /* AppDelegate.m */,
 				6260CABD1B18029100F8A687 /* ViewController.h */,
 				6260CABE1B18029100F8A687 /* ViewController.m */,
+				6260CADC1B18042000F8A687 /* Person.h */,
+				6260CADD1B18042000F8A687 /* Person.m */,
+				6260CADF1B18319C00F8A687 /* NSObject+Conversion.h */,
+				6260CAE01B18319C00F8A687 /* NSObject+Conversion.m */,
 				6260CAC01B18029100F8A687 /* Main.storyboard */,
 				6260CAC31B18029100F8A687 /* Images.xcassets */,
 				6260CAC51B18029100F8A687 /* LaunchScreen.xib */,
@@ -221,6 +231,8 @@
 			files = (
 				6260CABF1B18029100F8A687 /* ViewController.m in Sources */,
 				6260CABC1B18029100F8A687 /* AppDelegate.m in Sources */,
+				6260CAE11B18319C00F8A687 /* NSObject+Conversion.m in Sources */,
+				6260CADE1B18042000F8A687 /* Person.m in Sources */,
 				6260CAB91B18029100F8A687 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
