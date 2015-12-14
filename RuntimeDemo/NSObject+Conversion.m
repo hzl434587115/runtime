@@ -16,7 +16,9 @@
 + (NSArray*)setArrayWithDic:(NSArray*)array key:(NSString*)key
 {
     NSMutableArray *modelArray = [NSMutableArray arrayWithCapacity:0];
-    if ([self respondsToSelector:@selector(KeyFromPropertyName)])
+    
+    // 如果model类实现了hzlObjectClassInArray方法则返回数组中存储的类的类型
+    if ([self respondsToSelector:@selector(hzlObjectClassInArray)])
     {
         // 1.获取用户实现的数组中存的是那种类型的model的字典
         NSDictionary *classDict = [self hzlObjectClassInArray];
@@ -35,30 +37,39 @@
         return modelArray;
     }
     
-    return nil;
+    return array;
 }
 
 // 字典转model
 + (id)setDataWithDic:(NSDictionary *)dic
 {
+    // 1.动态创建调用该方法的类的实例对象
     id object = [[self alloc]init];
     
+    // 2.使用weak关键字创建弱引用指向该对象,防止在block中出现循环引用
     __weak __typeof(self) weakSelf = object;
     
+    // 3.快速遍历字典
     [dic enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         
+        // 4.获得调用该方法的类的属性名称
         NSString *propertyKey = [self propertyForKey:key];
         
+        // 5.判断属性名称存不存在
         if (propertyKey)
         {
+            // 6.判断这个值是什么类型
             if([obj isKindOfClass:[NSArray class]])
             {
+                // 调用字典数组转模型数组
                 NSArray *array = [self setArrayWithDic:obj key:propertyKey];
                 
+                // 利用kvc赋值
                 [weakSelf setValue:array forKey:propertyKey];
             }
             else if([obj isKindOfClass:[NSString class]])
             {
+                // 利用kvc赋值
                 [weakSelf setValue:obj forKey:propertyKey];
             }
             else if([obj isKindOfClass:[NSDictionary class]])
@@ -66,12 +77,16 @@
                 // 根据名称获得属性
                 objc_property_t property = class_getProperty([self class], [propertyKey UTF8String]);
                 
+                // 获得该属性是什么类型的类
                 NSString *classString = [self getClassWtih:property];
                 
+                // 根据字符串创建类
                 Class typeClass = NSClassFromString(classString);
                 
+                // 调用字典转模型
                 id model = [typeClass setDataWithDic:obj];
                 
+                // 利用kvc赋值
                 [weakSelf setValue:model forKey:propertyKey];
                 
                 NSLog(@"type is %@",[model class]);
@@ -102,7 +117,7 @@
     // 根据他“T@"”的range确定Class的名称
     NSRange range = NSMakeRange(rangeOne.length + rangeOne.location,typeString.length - (rangeOne.length + rangeOne.location + 1));
     
-    // 获取code值
+    // 获取class的值
     NSString *classString = [typeString substringWithRange:range];
     
     NSLog(@"属性:%@\r\n类别:%@\r\n信息:%@", propertyName,typeString, attributeString);
@@ -134,7 +149,7 @@
 // 字典转模型,字典里的key值要和model里的属性名一致
 + (id)dictionaryToModel:(NSDictionary*)dictionary
 {
-    // 1.动态创建调用该方法的类
+    // 1.动态创建调用该方法的类的实例对象
     id obj = [[self alloc]init];
     
     // 2.获取该字典中所有的key

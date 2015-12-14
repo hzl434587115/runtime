@@ -32,9 +32,9 @@
     
     Person *personA = [Person setDataWithDic:dicA];
     
-    NSLog(@"name:%@,age:%@,sex:%@",personA.name,personA.age,personA.sex);
-    
     MyRunTime *model = personA.myWife[0];
+    
+    NSLog(@"name:%@,age:%@,sex:%@",personA.name,personA.age,personA.sex);
     
     NSLog(@"name:%@,status:%@",model.name,model.status);
     
