@@ -14,6 +14,7 @@
 
 #import "NSObject+Conversion.h"
 
+#import "MyRunTime.h"
 @interface ViewController ()
 
 @end
@@ -23,6 +24,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    NSDictionary *dic1 = @{@"name":@"jack",@"status":@"101"};
+    NSDictionary *dic2 = @{@"name":@"rosi",@"status":@"102"};
+    NSArray *array = @[dic1,dic2];
+    
+    NSDictionary *dicA = @{@"name1":@"胡中磊",@"age1":@"26",@"sex1":@"男",@"runTime":dic1,@"myWife":array};
+    
+    Person *personA = [Person setDataWithDic:dicA];
+    
+    NSLog(@"name:%@,age:%@,sex:%@",personA.name,personA.age,personA.sex);
+    
+    MyRunTime *model = personA.myWife[0];
+    
+    NSLog(@"name:%@,status:%@",model.name,model.status);
+    
+    NSLog(@"name:%@,status:%@",personA.runTime.name,personA.runTime.status);
 }
 
 - (void)didReceiveMemoryWarning {

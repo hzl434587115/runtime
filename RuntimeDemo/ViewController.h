@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+{
+    NSArray *copyArray;
+    
+    NSMutableArray *dataArray;
+}
 
 - (IBAction)getAction:(UIButton *)sender;
 
