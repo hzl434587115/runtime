@@ -48,12 +48,23 @@
 
 - (IBAction)getAction:(UIButton *)sender
 {
+    //[self testA];
     Person *person = [[Person alloc]init];
     person.name = @"胡中磊";
     person.age = @"26";
     person.sex = @"男";
     
-    //[self getPropertyList:person];
+    [self getMethodList:person];
+}
+
+- (void)testA
+{
+    Person *person = [[Person alloc]init];
+    person.name = @"胡中磊";
+    person.age = @"26";
+    person.sex = @"男";
+    
+    [self getPropertyList:person];
     
     //[self valueForPropertyName:person];
     
@@ -69,7 +80,7 @@
                                  @"kw":@"123",
                                  @"pageNo":@"235",};
     
-    [self getJsonWithDictionary:dic1];
+    //[self getJsonWithDictionary:dic1];
     
     NSDictionary *dic2 = @{      @"format":@"json",
                                  @"kw":@"123",
@@ -81,15 +92,55 @@
     
     NSArray *ary = [NSArray arrayWithObjects:dic1,dic2,dic3,nil];
     
-    [self getJsonWithArray:ary];
+    //[self getJsonWithArray:ary];
 }
-// 获取一个model类中所有的属性
--(void)getPropertyList:(id)model
+
+- (void)testB
+{
+    // 判断一个方法能否执行
+//    if ([self respondsToSelector:@selector(method)])
+//    {
+//        [self performSelector:@selector(method)];
+//    }
+    
+    // 调用方法
+    //objc_msgSend(receiver, selector)
+}
+
+// 获取一个类中所有的方法
+- (void)getMethodList:(id)model
 {
     unsigned int outCount, i;
     
+    Method *methodList = class_copyMethodList ([model class], &outCount );
+    
+    for (i = 0; i < outCount; i++)
+    {
+        Method method = methodList[i];
+        
+        // 获取方法名称
+        SEL sel = method_getName(method);
+        
+        const char *selName = sel_getName(sel);
+        NSString *selString = [[NSString alloc] initWithCString:selName encoding:NSUTF8StringEncoding];
+        
+        const char *methodType = method_getTypeEncoding(method);
+        NSString *methodString = [[NSString alloc] initWithCString:methodType encoding:NSUTF8StringEncoding];
+        
+        NSLog(@"方法名称:%@,Type:%@", selString,methodString);
+    }
+}
+
+// 获取一个model类中所有的属性
+-(void)getPropertyList:(id)model
+{
+    unsigned int outCount, i ,attributeCount ,j;
+    
     // 运行时方法获取一个类的所有属性
     objc_property_t *properties = class_copyPropertyList([model class], &outCount);
+    
+    // 运行时方法获取一个属性的特性列表
+    objc_property_attribute_t *attributes = property_copyAttributeList(properties[3], &attributeCount);
     
     for (i = 0; i < outCount; i++)
     {
@@ -98,9 +149,22 @@
         // 获取属性名称
         const char *name = property_getName(properties[i]);
         
-        NSString *propertyName = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
+        // 指定特性的值
+        char *value = property_copyAttributeValue(property, "T");
         
-        NSLog(@"%@ %s\n", propertyName, property_getAttributes(property));
+        NSString *propertyName = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
+        NSString *attributeValue = [[NSString alloc] initWithCString:value encoding:NSUTF8StringEncoding];
+        
+        NSLog(@"属性名称:%@\n属性信息%s\n特性:%@", propertyName, property_getAttributes(property),attributeValue);
+    }
+    for (j = 0; j < attributeCount; j++)
+    {
+        objc_property_attribute_t attribute = attributes[j];
+        
+        NSString *attributeName = [[NSString alloc] initWithCString:attribute.name encoding:NSUTF8StringEncoding];
+        NSString *attributeValue = [[NSString alloc] initWithCString:attribute.value encoding:NSUTF8StringEncoding];
+        
+        NSLog(@"特性名称:%@,特性值:%@", attributeName,attributeValue);
     }
 }
 // 获取model类中属性的值
